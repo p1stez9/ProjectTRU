@@ -20,14 +20,14 @@ export const therapists: Therapist[] = [
 
 const timeSlots = [
   '09:00', '10:00', '11:00', '12:00', 
-  '14:00', '15:00', '16:00', '17:00', '18:00'
+  '14:00', '15:00'
 ];
 
 export const generateMockBookings = (): BookingDay[] => {
   const bookings: BookingDay[] = [];
   const today = new Date();
   
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 4; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
     
@@ -35,15 +35,11 @@ export const generateMockBookings = (): BookingDay[] => {
     const dateString = date.toISOString().split('T')[0];
     
     const slots = timeSlots.map(time => {
-      // สุ่มสถานะว่างหรือจอง (70% ว่าง)
-      const available = Math.random() > 0.3;
-      const randomTherapist = therapists[Math.floor(Math.random() * therapists.length)];
-      
       return {
         time,
-        available,
-        therapistId: available ? undefined : randomTherapist.id,
-        therapistName: available ? undefined : randomTherapist.name,
+        available: true,
+        therapistId: undefined,
+        therapistName: undefined,
       };
     });
     

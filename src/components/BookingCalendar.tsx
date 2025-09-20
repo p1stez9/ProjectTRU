@@ -1,17 +1,17 @@
-import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Clock, User, Calendar } from 'lucide-react';
 import { BookingDay, TimeSlot } from '@/types/booking';
-import { generateMockBookings } from '@/data/mockData';
 
 interface BookingCalendarProps {
+  bookings: BookingDay[];
   onBookingClick: (date: string, timeSlot: TimeSlot) => void;
+  onBookingComplete?: (date: string, time: string, therapistName: string) => void;
 }
 
-const BookingCalendar = ({ onBookingClick }: BookingCalendarProps) => {
-  const [bookings] = useState<BookingDay[]>(generateMockBookings());
+const BookingCalendar = ({ bookings, onBookingClick, onBookingComplete }: BookingCalendarProps) => {
+
 
   const formatThaiDate = (dateString: string) => {
     const date = new Date(dateString);

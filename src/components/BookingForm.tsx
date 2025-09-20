@@ -13,9 +13,10 @@ interface BookingFormProps {
   selectedDate: string;
   selectedTime: string;
   onBack: () => void;
+  onBookingSuccess?: (date: string, time: string, therapistName: string) => void;
 }
 
-const BookingForm = ({ selectedDate, selectedTime, onBack }: BookingFormProps) => {
+const BookingForm = ({ selectedDate, selectedTime, onBack, onBookingSuccess }: BookingFormProps) => {
   const [selectedTherapist, setSelectedTherapist] = useState<string>('');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -55,6 +56,13 @@ const BookingForm = ({ selectedDate, selectedTime, onBack }: BookingFormProps) =
       title: "จองสำเร็จ!",
       description: `การจองของคุณ ${customerName} เวลา ${selectedTime} กับ${therapist?.name} ได้รับการยืนยันแล้ว`,
     });
+    
+    // อัปเดตสถานะการจองใน BookingCalendar
+    console.log('Attempting to update booking status:', { selectedDate, selectedTime, therapistName: therapist?.name });
+    if (onBookingSuccess) {
+      console.log('Calling onBookingSuccess callback');
+      onBookingSuccess(selectedDate, selectedTime, therapist?.name || '');
+    }
     
     setIsSubmitting(false);
     onBack(); // กลับไปหน้าแรก
